@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -26,6 +27,10 @@ namespace MessageBird.API
 	/// A <see cref="HttpContent"/> class for application/json.
 	/// </summary>
 	/// <typeparam name="T">The type to serialize.</typeparam>
+	[SuppressMessage(
+		"StyleCop.CSharp.MaintainabilityRules",
+		"SA1402:File may only contain a single type",
+		Justification = "Same type")]
 	internal class JsonContent<T>
 		: StringContent
 	{
@@ -45,8 +50,7 @@ namespace MessageBird.API
 				value,
 				new JsonSerializerSettings {
 					ContractResolver = new CamelCasePropertyNamesContractResolver(),
-					NullValueHandling = NullValueHandling.Ignore,
-				});
+					NullValueHandling = NullValueHandling.Ignore, });
 		}
 	}
 }

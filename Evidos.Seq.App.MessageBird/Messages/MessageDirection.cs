@@ -1,9 +1,9 @@
-﻿namespace MessageBird.API.Messages
+namespace MessageBird.API.Messages
 {
 	public enum MessageDirection
 	{
-		unknown,
-		mt,
-		mo,
+		Unknown,
+		Mt,
+		Mo,
 	}
 }

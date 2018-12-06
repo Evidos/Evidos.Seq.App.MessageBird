@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)build/signhost.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Build output configuration">
+    <BaseOutputPath>$(MSBuildThisFileDirectory)/out/bin/$(MSBuildProjectName)</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)/out/obj/$(MSBuildProjectName)</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Build output configuration" Condition="'$(DOTNET_RUNNING_IN_CONTAINER)' == 'true'">
+    <PublishDir>$(MSBuildThisFileDirectory)/out/publish/$(MSBuildProjectName)</PublishDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61" PrivateAssets="All" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)build/stylecop.json" />
+  </ItemGroup>
+</Project>

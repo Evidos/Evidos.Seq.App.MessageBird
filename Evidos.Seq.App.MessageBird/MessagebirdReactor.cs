@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DotLiquid;
 using MessageBird.API;
 using Seq.Apps;
@@ -6,7 +6,8 @@ using Seq.Apps.LogEvents;
 
 namespace Evidos.Seq.App.Messagebird
 {
-	[SeqApp("Messagebird plugin",
+	[SeqApp(
+		"Messagebird plugin",
 		Description = "Uses a provided template to send events as formatted sms.")]
 	public class MessageBirdReactor
 		: Reactor
@@ -50,8 +51,7 @@ namespace Evidos.Seq.App.Messagebird
 		public async void On(Event<LogEventData> evt)
 		{
 			suppressions = suppressions ?? new MessageSuppressions(SuppressionMinutes);
-			if (suppressions.ShouldSuppressAt(evt.EventType, DateTime.UtcNow))
-			{
+			if (suppressions.ShouldSuppressAt(evt.EventType, DateTime.UtcNow)) {
 				return;
 			}
 
@@ -68,8 +68,7 @@ namespace Evidos.Seq.App.Messagebird
 
 			template = Template.Parse(MessageTemplate);
 
-			if (messagebirdapi == null)
-			{
+			if (messagebirdapi == null) {
 				messagebirdapi = new MessageBirdRest(ApiKey);
 			}
 

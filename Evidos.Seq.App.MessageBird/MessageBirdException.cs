@@ -8,15 +8,18 @@ namespace MessageBird.API
 		: Exception
 	{
 		public MessageBirdException()
-		{ }
+		{
+		}
 
 		public MessageBirdException(string message)
 			: base(message)
-		{ }
+		{
+		}
 
 		public MessageBirdException(string message, Exception innerException)
 			: base(message, innerException)
-		{ }
+		{
+		}
 
 		public MessageBirdException(IEnumerable<Error> errors)
 			: base(string.Join(", ", errors.Select(e => e.Description)))

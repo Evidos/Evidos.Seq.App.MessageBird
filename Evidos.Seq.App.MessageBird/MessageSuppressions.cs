@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 
 namespace Evidos.Seq.App.Messagebird
 {
 	public class MessageSuppressions
 	{
-		private readonly ConcurrentDictionary<uint, DateTime> _lastSeen = new ConcurrentDictionary<uint, DateTime>();
+		private readonly ConcurrentDictionary<uint, DateTime> lastSeen = new ConcurrentDictionary<uint, DateTime>();
 		private readonly int suppressionMinutes;
 
 		public MessageSuppressions(int suppressionMinutes)
@@ -15,14 +15,19 @@ namespace Evidos.Seq.App.Messagebird
 
 		public bool ShouldSuppressAt(uint eventType, DateTime utcNow)
 		{
-			var added = false;
-			var lastSeen = _lastSeen.GetOrAdd(eventType, k => { added = true; return DateTime.UtcNow; });
+			bool added = false;
+			var lastSeen = this.lastSeen.GetOrAdd(eventType, k => {
+				added = true;
+				return DateTime.UtcNow;
+			});
+
 			if (!added)
 			{
-				if (lastSeen > utcNow.AddMinutes(-suppressionMinutes))
+				if (lastSeen > utcNow.AddMinutes(-suppressionMinutes)) {
 					return true;
+				}
 
-				_lastSeen[eventType] = utcNow;
+				this.lastSeen[eventType] = utcNow;
 			}
 
 			return false;

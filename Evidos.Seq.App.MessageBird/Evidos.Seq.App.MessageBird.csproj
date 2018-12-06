@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
@@ -11,14 +11,14 @@
     <PackageId>Evidos.Seq.App.MessageBird</PackageId>
     <Product>Evidos.Seq.App.MessageBird</Product>
     <Description>This Seq plugin allows sending messages from Seq to sms provider Messagebird.</Description>
-    <Copyright>2018</Copyright>
-    <RepositoryUrl>git@github.com:Evidos/Evidos.Seq.App.MessageBird.git</RepositoryUrl>
+    <Copyright>Evidos - 2018</Copyright>
+    <RepositoryUrl>https://github.com/Evidos/Evidos.Seq.App.MessageBird</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <Target Name="GetMyPackageFiles">
     <ItemGroup>
-      <BuildOutputInPackage Include="$(OutputPath)*.dll" Exclude="$(OutputPath)Seq.Apps.dll;$(OutputPath)Serilog.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)*.dll" Exclude="$(OutputPath)Seq.Apps.dll;$(OutputPath)Serilog.dll;$(OutputPath)Evidos.Seq.App.MessageBird.dll" />
     </ItemGroup>
   </Target>
 
