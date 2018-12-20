@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using DotLiquid;
 using MessageBird.API;
 using Seq.Apps;
@@ -48,6 +49,10 @@ namespace Evidos.Seq.App.Messagebird
 			IsOptional = false)]
 		public string ApiKey { get; set; }
 
+		[SuppressMessage(
+			"StyleCop.CSharp.MaintainabilityRules",
+			"SA1137:Elements should have the same indentation",
+			Justification = "Bug in the analyzer")]
 		public async void On(Event<LogEventData> evt)
 		{
 			suppressions = suppressions ?? new MessageSuppressions(SuppressionMinutes);
@@ -68,18 +73,27 @@ namespace Evidos.Seq.App.Messagebird
 
 			template = Template.Parse(MessageTemplate);
 
+			var body = template.Render(Hash.FromAnonymousObject(param));
+
 			if (messagebirdapi == null) {
 				messagebirdapi = new MessageBirdRest(ApiKey);
 			}
 
-			await messagebirdapi.SendAsync(
-				new MessageBird.API.Messages.SendMessageRequest
-				{
-					Recipients = Recipients.Split(';'),
-					Body = template.Render(Hash.FromAnonymousObject(param)),
-					Originator = Sender,
+			try {
+				if (body.Length > 512) {
+					body = body.Substring(0, 512);
 				}
-			);
+
+				await messagebirdapi.SendAsync(
+					new MessageBird.API.Messages.SendMessageRequest {
+						Recipients = Recipients.Split(';'),
+						Body = body,
+						Originator = Sender,
+					}
+				);
+			} catch (UnprocessableEntityMessageBirdException e) {
+				Log.Warning(e, "Error while sending an sms. {message}", param.Message, param.Exception, param.Properties, template, body);
+			}
 		}
 	}
 }
